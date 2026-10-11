@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Search, ShoppingBag, Heart, User, Menu, X, Phone, Truck, Home, Grid3x3, Percent, Info } from 'lucide-react';
+import { Search, ShoppingBag, Heart, User, Menu, X, Phone, Truck } from 'lucide-react';
 import { useStore } from '../context/StoreContext';
 
 export default function Navbar() {
@@ -27,13 +27,6 @@ export default function Navbar() {
     }
   };
 
-  const menuItems = [
-    { label: 'خانه', path: '/', icon: Home },
-    { label: 'دسته‌بندی', path: '/categories', icon: Grid3x3 },
-    { label: 'تخفیفات ویژه', path: '/discounts', icon: Percent },
-    { label: 'درباره ما', path: '/about', icon: Info },
-  ];
-
   return (
     <>
       {/* Top Bar */}
@@ -41,7 +34,8 @@ export default function Navbar() {
         <div className="max-w-7xl mx-auto px-4 flex items-center justify-between">
           <div className="flex items-center gap-1">
             <Truck size={14} />
-            <span>ارسال رایگان بالای ۵۰۰ هزار تومان</span>
+            <span className="hidden sm:inline">ارسال رایگان بالای ۵۰۰ هزار تومان</span>
+            <span className="sm:hidden">ارسال رایگان</span>
           </div>
           <div className="hidden md:flex items-center gap-1">
             <Phone size={12} />
@@ -53,75 +47,56 @@ export default function Navbar() {
       {/* Main Navbar */}
       <nav className={`sticky top-0 z-50 transition-all duration-300 bg-white ${scrolled ? 'shadow-md' : ''}`}>
         <div className="max-w-7xl mx-auto px-4">
-          <div className="flex items-center justify-between h-16 lg:h-20">
+          <div className="flex items-center justify-between h-14 md:h-16">
+            {/* Logo */}
             <Link to="/" className="flex items-center gap-2">
-              <div className="w-10 h-10 bg-gray-900 rounded-lg flex items-center justify-center">
-                <span className="text-white font-black text-lg">M</span>
+              <div className="w-9 h-9 md:w-10 md:h-10 bg-gray-900 rounded-lg flex items-center justify-center">
+                <span className="text-white font-black text-base md:text-lg">M</span>
               </div>
-              <div>
-                <h1 className="text-xl font-black text-gray-900 leading-tight">مدیسه</h1>
-                <p className="text-[10px] text-gray-400 -mt-1">فروشگاه آنلاین پوشاک</p>
+              <div className="hidden sm:block">
+                <h1 className="text-lg md:text-xl font-black text-gray-900 leading-tight">مدیسه</h1>
+                <p className="text-[9px] text-gray-400 -mt-1">فروشگاه آنلاین پوشاک</p>
               </div>
             </Link>
 
-            {/* Desktop Search */}
-            <div className="hidden lg:flex flex-1 max-w-xl mx-8">
+            {/* Search Bar - Desktop */}
+            <div className="hidden md:flex flex-1 max-w-md mx-6">
               <form onSubmit={handleSearch} className="relative w-full">
                 <input
                   type="text"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   placeholder="جستجو در محصولات..."
-                  className="w-full bg-gray-100 rounded-xl py-3 px-5 pr-12 text-sm focus:outline-none focus:ring-2 focus:ring-gray-900 transition-all"
+                  className="w-full bg-gray-100 rounded-xl py-2.5 px-4 pr-10 text-sm focus:outline-none focus:ring-2 focus:ring-gray-900 transition-all"
                 />
-                <button type="submit" className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600">
+                <button type="submit" className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600">
                   <Search size={18} />
                 </button>
               </form>
             </div>
 
             {/* Actions */}
-            <div className="flex items-center gap-2">
-              <button onClick={() => setSearchOpen(!searchOpen)} className="lg:hidden p-2 hover:bg-gray-100 rounded-xl transition-colors">
-                <Search size={22} />
+            <div className="flex items-center gap-1 md:gap-2">
+              <button onClick={() => setSearchOpen(!searchOpen)} className="md:hidden p-2 hover:bg-gray-100 rounded-xl transition-colors">
+                <Search size={20} />
               </button>
               <Link to="/wishlist" className="hidden sm:flex p-2 hover:bg-gray-100 rounded-xl transition-colors relative">
-                <Heart size={22} />
+                <Heart size={20} />
                 {wishlist.length > 0 && (
                   <span className="absolute -top-0.5 -right-0.5 w-4 h-4 bg-red-500 text-white text-[10px] rounded-full flex items-center justify-center">{wishlist.length}</span>
                 )}
               </Link>
               <Link to="/cart" className="p-2 hover:bg-gray-100 rounded-xl transition-colors relative">
-                <ShoppingBag size={22} />
+                <ShoppingBag size={20} />
                 {cartCount > 0 && (
                   <span className="absolute -top-0.5 -right-0.5 w-4 h-4 bg-red-500 text-white text-[10px] rounded-full flex items-center justify-center">{cartCount}</span>
                 )}
               </Link>
-              <Link to="/auth" className="hidden sm:flex items-center gap-2 bg-gray-900 text-white px-5 py-2.5 rounded-xl text-sm font-medium hover:bg-gray-800 transition-colors">
+              <Link to="/auth" className="hidden md:flex items-center gap-2 bg-gray-900 text-white px-4 py-2 rounded-xl text-sm font-medium hover:bg-gray-800 transition-colors">
                 <User size={16} />
                 <span>ورود</span>
               </Link>
-              <button onClick={() => setMenuOpen(!menuOpen)} className="lg:hidden p-2 hover:bg-gray-100 rounded-xl transition-colors">
-                {menuOpen ? <X size={22} /> : <Menu size={22} />}
-              </button>
             </div>
-          </div>
-
-          {/* Desktop Menu */}
-          <div className="hidden lg:flex items-center gap-1 pb-3 border-t border-gray-100 pt-3">
-            {menuItems.map((item) => {
-              const Icon = item.icon;
-              return (
-                <Link
-                  key={item.path}
-                  to={item.path}
-                  className="flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-100 transition-colors"
-                >
-                  <Icon size={16} />
-                  <span>{item.label}</span>
-                </Link>
-              );
-            })}
           </div>
         </div>
 
@@ -132,7 +107,7 @@ export default function Navbar() {
               initial={{ height: 0, opacity: 0 }}
               animate={{ height: 'auto', opacity: 1 }}
               exit={{ height: 0, opacity: 0 }}
-              className="lg:hidden border-t bg-white px-4 py-3 overflow-hidden"
+              className="md:hidden border-t bg-white px-4 py-3 overflow-hidden"
             >
               <form onSubmit={handleSearch} className="relative">
                 <input
@@ -140,50 +115,13 @@ export default function Navbar() {
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   placeholder="جستجو..."
-                  className="w-full bg-gray-100 rounded-xl py-3 px-5 pr-12 text-sm focus:outline-none"
+                  className="w-full bg-gray-100 rounded-xl py-2.5 px-4 pr-10 text-sm focus:outline-none"
                   autoFocus
                 />
-                <button type="submit" className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400">
+                <button type="submit" className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400">
                   <Search size={18} />
                 </button>
               </form>
-            </motion.div>
-          )}
-        </AnimatePresence>
-
-        {/* Mobile Menu */}
-        <AnimatePresence>
-          {menuOpen && (
-            <motion.div
-              initial={{ height: 0, opacity: 0 }}
-              animate={{ height: 'auto', opacity: 1 }}
-              exit={{ height: 0, opacity: 0 }}
-              className="lg:hidden border-t bg-white overflow-hidden"
-            >
-              <div className="px-4 py-4 space-y-1">
-                {menuItems.map((item) => {
-                  const Icon = item.icon;
-                  return (
-                    <Link
-                      key={item.path}
-                      to={item.path}
-                      onClick={() => setMenuOpen(false)}
-                      className="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-gray-100 text-gray-700 font-medium"
-                    >
-                      <Icon size={18} />
-                      <span>{item.label}</span>
-                    </Link>
-                  );
-                })}
-                <Link
-                  to="/auth"
-                  onClick={() => setMenuOpen(false)}
-                  className="w-full mt-3 flex items-center justify-center gap-2 bg-gray-900 text-white px-5 py-3 rounded-xl text-sm font-medium"
-                >
-                  <User size={16} />
-                  ورود | ثبت‌نام
-                </Link>
-              </div>
             </motion.div>
           )}
         </AnimatePresence>

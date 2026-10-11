@@ -172,7 +172,7 @@ export default function ProductsPage() {
                 </button>
               </div>
             ) : (
-              <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-6">
                 {filteredProducts.map((product, i) => (
                   <motion.div key={product.id} initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.05 }} className="product-card group bg-white rounded-2xl border border-gray-100 overflow-hidden card-hover">
                     <div className="relative aspect-[3/4] overflow-hidden bg-gray-50">
