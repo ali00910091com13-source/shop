@@ -1,11 +1,12 @@
 import { Link } from 'react-router-dom';
-import { Instagram, Send, Phone, Shield, CreditCard, Truck, Award } from 'lucide-react';
+import { Instagram, Send, Phone, Shield, CreditCard, Truck, Award, Home, Grid3x3, Percent, Info } from 'lucide-react';
 
 export default function Footer() {
   return (
     <footer className="bg-gray-900 border-t border-gray-800 pt-16 pb-8">
       <div className="max-w-7xl mx-auto px-4">
         <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-8 mb-12">
+          {/* Brand */}
           <div className="col-span-2 lg:col-span-2">
             <Link to="/" className="flex items-center gap-2 mb-4">
               <div className="w-10 h-10 bg-white rounded-lg flex items-center justify-center">
@@ -32,16 +33,38 @@ export default function Footer() {
             </div>
           </div>
 
+          {/* Quick Links */}
           <div>
             <h4 className="font-bold text-white mb-4">دسترسی سریع</h4>
             <ul className="space-y-2.5">
-              <li><Link to="/" className="text-gray-400 text-sm hover:text-white transition-colors">صفحه اصلی</Link></li>
-              <li><Link to="/products" className="text-gray-400 text-sm hover:text-white transition-colors">محصولات</Link></li>
-              <li><Link to="/products?discount=true" className="text-gray-400 text-sm hover:text-white transition-colors">تخفیف‌ها</Link></li>
-              <li><Link to="/categories" className="text-gray-400 text-sm hover:text-white transition-colors">دسته‌بندی</Link></li>
+              <li>
+                <Link to="/" className="flex items-center gap-2 text-gray-400 text-sm hover:text-white transition-colors">
+                  <Home size={14} />
+                  <span>خانه</span>
+                </Link>
+              </li>
+              <li>
+                <Link to="/categories" className="flex items-center gap-2 text-gray-400 text-sm hover:text-white transition-colors">
+                  <Grid3x3 size={14} />
+                  <span>دسته‌بندی</span>
+                </Link>
+              </li>
+              <li>
+                <Link to="/discounts" className="flex items-center gap-2 text-gray-400 text-sm hover:text-white transition-colors">
+                  <Percent size={14} />
+                  <span>تخفیفات ویژه</span>
+                </Link>
+              </li>
+              <li>
+                <Link to="/about" className="flex items-center gap-2 text-gray-400 text-sm hover:text-white transition-colors">
+                  <Info size={14} />
+                  <span>درباره ما</span>
+                </Link>
+              </li>
             </ul>
           </div>
 
+          {/* Customer Service */}
           <div>
             <h4 className="font-bold text-white mb-4">خدمات مشتریان</h4>
             <ul className="space-y-2.5">
@@ -52,6 +75,7 @@ export default function Footer() {
             </ul>
           </div>
 
+          {/* Contact */}
           <div>
             <h4 className="font-bold text-white mb-4">تماس با ما</h4>
             <ul className="space-y-2.5">
@@ -63,6 +87,7 @@ export default function Footer() {
           </div>
         </div>
 
+        {/* Trust Badges */}
         <div className="border-t border-gray-800 pt-8 mb-8">
           <div className="flex flex-wrap items-center justify-center gap-6">
             {[
@@ -79,6 +104,7 @@ export default function Footer() {
           </div>
         </div>
 
+        {/* Copyright */}
         <div className="border-t border-gray-800 pt-8 text-center">
           <p className="text-gray-500 text-sm">
             تمامی حقوق مادی و معنوی این سایت متعلق به فروشگاه اینترنتی مدیسه می‌باشد.

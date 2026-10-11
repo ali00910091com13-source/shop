@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Search, ShoppingBag, Heart, User, Menu, X, Phone, Clock, Truck, Percent } from 'lucide-react';
+import { Search, ShoppingBag, Heart, User, Menu, X, Phone, Truck, Home, Grid3x3, Percent, Info } from 'lucide-react';
 import { useStore } from '../context/StoreContext';
 
 export default function Navbar() {
@@ -28,12 +28,10 @@ export default function Navbar() {
   };
 
   const menuItems = [
-    { label: 'صفحه اصلی', path: '/' },
-    { label: 'پوشاک مردانه', path: '/products' },
-    { label: 'دسته‌بندی', path: '/categories' },
-    { label: 'تخفیف‌ها', path: '/products?discount=true' },
-    { label: 'برندها', path: '/products' },
-    { label: 'تماس با ما', path: '/contact' },
+    { label: 'خانه', path: '/', icon: Home },
+    { label: 'دسته‌بندی', path: '/categories', icon: Grid3x3 },
+    { label: 'تخفیفات ویژه', path: '/discounts', icon: Percent },
+    { label: 'درباره ما', path: '/about', icon: Info },
   ];
 
   return (
@@ -41,12 +39,13 @@ export default function Navbar() {
       {/* Top Bar */}
       <div className="bg-gray-900 text-white text-xs py-2">
         <div className="max-w-7xl mx-auto px-4 flex items-center justify-between">
-          <div className="flex items-center gap-4">
-            <span className="flex items-center gap-1"><Truck size={14} /> ارسال رایگان بالای ۵۰۰ هزار تومان</span>
+          <div className="flex items-center gap-1">
+            <Truck size={14} />
+            <span>ارسال رایگان بالای ۵۰۰ هزار تومان</span>
           </div>
-          <div className="hidden md:flex items-center gap-4">
-            <span className="flex items-center gap-1"><Phone size={12} /> ۰۲۱-۹۱۰۰۹۱۰۰</span>
-            <span className="flex items-center gap-1"><Clock size={12} /> پشتیبانی ۲۴ ساعته</span>
+          <div className="hidden md:flex items-center gap-1">
+            <Phone size={12} />
+            <span>۰۲۱-۹۱۰۰۹۱۰۰</span>
           </div>
         </div>
       </div>
@@ -65,6 +64,7 @@ export default function Navbar() {
               </div>
             </Link>
 
+            {/* Desktop Search */}
             <div className="hidden lg:flex flex-1 max-w-xl mx-8">
               <form onSubmit={handleSearch} className="relative w-full">
                 <input
@@ -80,6 +80,7 @@ export default function Navbar() {
               </form>
             </div>
 
+            {/* Actions */}
             <div className="flex items-center gap-2">
               <button onClick={() => setSearchOpen(!searchOpen)} className="lg:hidden p-2 hover:bg-gray-100 rounded-xl transition-colors">
                 <Search size={22} />
@@ -98,7 +99,7 @@ export default function Navbar() {
               </Link>
               <Link to="/auth" className="hidden sm:flex items-center gap-2 bg-gray-900 text-white px-5 py-2.5 rounded-xl text-sm font-medium hover:bg-gray-800 transition-colors">
                 <User size={16} />
-                <span>ورود | ثبت‌نام</span>
+                <span>ورود</span>
               </Link>
               <button onClick={() => setMenuOpen(!menuOpen)} className="lg:hidden p-2 hover:bg-gray-100 rounded-xl transition-colors">
                 {menuOpen ? <X size={22} /> : <Menu size={22} />}
@@ -106,22 +107,33 @@ export default function Navbar() {
             </div>
           </div>
 
+          {/* Desktop Menu */}
           <div className="hidden lg:flex items-center gap-1 pb-3 border-t border-gray-100 pt-3">
-            {menuItems.map((item, i) => (
-              <Link key={i} to={item.path} className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${i === 1 ? 'bg-gray-900 text-white' : 'text-gray-700 hover:bg-gray-100'}`}>
-                {item.label}
-              </Link>
-            ))}
-            <Link to="/products?discount=true" className="mr-auto flex items-center gap-1 text-red-500 text-sm font-bold">
-              <Percent size={16} />
-              حراج ویژه
-            </Link>
+            {menuItems.map((item) => {
+              const Icon = item.icon;
+              return (
+                <Link
+                  key={item.path}
+                  to={item.path}
+                  className="flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-100 transition-colors"
+                >
+                  <Icon size={16} />
+                  <span>{item.label}</span>
+                </Link>
+              );
+            })}
           </div>
         </div>
 
+        {/* Mobile Search */}
         <AnimatePresence>
           {searchOpen && (
-            <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={{ height: 0, opacity: 0 }} className="lg:hidden border-t bg-white px-4 py-3 overflow-hidden">
+            <motion.div
+              initial={{ height: 0, opacity: 0 }}
+              animate={{ height: 'auto', opacity: 1 }}
+              exit={{ height: 0, opacity: 0 }}
+              className="lg:hidden border-t bg-white px-4 py-3 overflow-hidden"
+            >
               <form onSubmit={handleSearch} className="relative">
                 <input
                   type="text"
@@ -139,16 +151,35 @@ export default function Navbar() {
           )}
         </AnimatePresence>
 
+        {/* Mobile Menu */}
         <AnimatePresence>
           {menuOpen && (
-            <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={{ height: 0, opacity: 0 }} className="lg:hidden border-t bg-white overflow-hidden">
+            <motion.div
+              initial={{ height: 0, opacity: 0 }}
+              animate={{ height: 'auto', opacity: 1 }}
+              exit={{ height: 0, opacity: 0 }}
+              className="lg:hidden border-t bg-white overflow-hidden"
+            >
               <div className="px-4 py-4 space-y-1">
-                {menuItems.map((item, i) => (
-                  <Link key={i} to={item.path} onClick={() => setMenuOpen(false)} className="block px-4 py-3 rounded-xl hover:bg-gray-100 text-gray-700 font-medium">
-                    {item.label}
-                  </Link>
-                ))}
-                <Link to="/auth" onClick={() => setMenuOpen(false)} className="w-full mt-3 flex items-center justify-center gap-2 bg-gray-900 text-white px-5 py-3 rounded-xl text-sm font-medium">
+                {menuItems.map((item) => {
+                  const Icon = item.icon;
+                  return (
+                    <Link
+                      key={item.path}
+                      to={item.path}
+                      onClick={() => setMenuOpen(false)}
+                      className="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-gray-100 text-gray-700 font-medium"
+                    >
+                      <Icon size={18} />
+                      <span>{item.label}</span>
+                    </Link>
+                  );
+                })}
+                <Link
+                  to="/auth"
+                  onClick={() => setMenuOpen(false)}
+                  className="w-full mt-3 flex items-center justify-center gap-2 bg-gray-900 text-white px-5 py-3 rounded-xl text-sm font-medium"
+                >
                   <User size={16} />
                   ورود | ثبت‌نام
                 </Link>

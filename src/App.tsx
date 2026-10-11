@@ -14,6 +14,8 @@ import Wishlist from './pages/Wishlist';
 import Auth from './pages/Auth';
 import Contact from './pages/Contact';
 import Categories from './pages/Categories';
+import Discounts from './pages/Discounts';
+import About from './pages/About';
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -66,6 +68,8 @@ function Layout() {
           <Route path="/auth" element={<Auth />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/categories" element={<Categories />} />
+          <Route path="/discounts" element={<Discounts />} />
+          <Route path="/about" element={<About />} />
         </Routes>
       </main>
       <Footer />
